@@ -12,122 +12,7 @@ namespace WontDistractYouTube.Repositories
     {
         public UserProfileRepository(IConfiguration configuration) : base(configuration) { }
 
-
-        //public List<UserProfile> GetAll()
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                        SELECT up.Id, up.Name, up.Email, up.DisplayName, up.FirebaseUserId
-        //                        v.Id, v.Url, v.Title, v.Info, v.TopicId, v.UserProfileId,
-
-
-
-        //                        FROM UserProfile up 
-        //                        JOIN Video v ON v.UserProfileId = up.Id
-        //                        ORDER BY up.Id
-        //    ";
-
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-
-        //                var userProfile = new List<UserProfile>();
-        //                while (reader.Read())
-        //                {
-        //                    userProfile.Add(new UserProfile()
-        //                    {
-        //                        Id = DbUtils.GetInt(reader, "UserProfileId"),
-        //                        Name = DbUtils.GetString(reader, "Name"),
-        //                        Email = DbUtils.GetString(reader, "Email"),
-        //                        DisplayName = DbUtils.GetString(reader, "DisplayName"),
-        //                        FirebaseUserId = DbUtils.GetInt(reader, "FirebaseUserId"),
-
-        //                    });
-        //                }
-        //                return userProfile;
-
-        //            }
-        //        }
-        //    }
-        //}
-
-        //public List<UserProfile> GetAllUserProfilesWithVideosTagsAndTopics()
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //        SELECT v.Id AS VideoId, v.Title, v.Info, v.Url, v.TopicId,
-
-        //               up.Id AS UserProfileId, up.Name, up.Email, up.DisplayName, up.FirebaseUserId,
-
-        //               t.Id AS TagId, t.Name AS TagName,
-
-        //               tp.Id AS TopicId, tp.Title,
-
-        //               vt.TagId, vt.VideoId,
-
-        //          FROM Video v
-        //               LEFT JOIN Topic tp ON v.TopicId = tp.Id
-        //               JOIN UserProfile up ON v.UserProfileId = up.Id
-        //               LEFT JOIN VideoTag vt ON v.Id = vt.VideoId
-        //               LEFT JOIN Tag t ON vt.TagId = t.Id
-        //        ORDER BY tp.Title, t.Id
-        //    ";
-
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                var videos = new List<Video>();
-        //                while (reader.Read())
-        //                {
-        //                    var videoId = DbUtils.GetInt(reader, "VideoId");
-        //                    var existingVideo = videos.FirstOrDefault(v => v.Id == videoId);
-
-        //                    if (existingVideo == null)
-        //                    {
-        //                        existingVideo = new Video()
-        //                        {
-        //                            Id = videoId,
-        //                            Title = DbUtils.GetString(reader, "Title"),
-        //                            Info = DbUtils.GetString(reader, "Info"),
-        //                            Url = DbUtils.GetString(reader, "Url"),
-        //                            TopicId = DbUtils.GetInt(reader, "TopicId"),
-        //                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-        //                            UserProfile = new UserProfile()
-        //                            {
-        //                                Id = DbUtils.GetInt(reader, "UserProfileId"),
-        //                                Name = DbUtils.GetString(reader, "Name"),
-        //                                Email = DbUtils.GetString(reader, "Email"),
-        //                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
-        //                                FirebaseUserId = DbUtils.GetInt(reader, "FirebaseUserId")
-        //                            },
-        //                            Tag = new List<Tag>()
-        //                        };
-
-        //                        videos.Add(existingVideo);
-        //                    }
-
-        //                    if (DbUtils.IsNotDbNull(reader, "TagId"))
-        //                    {
-        //                        existingVideo.Tag.Add(new Tag()
-        //                        {
-        //                            Id = DbUtils.GetInt(reader, "TagId"),
-        //                            Name = DbUtils.GetString(reader, "TagName")
-        //                        });
-        //                    }
-        //                }
-
-        //                return videos;
-        //            }
-        //        }
-        //    }
-        //}
-
+                
         public UserProfile GetAllVideosByUserProfileId(int id)
         {
             using (var conn = Connection)
@@ -228,3 +113,118 @@ namespace WontDistractYouTube.Repositories
         }
     }
 }
+
+//public List<UserProfile> GetAll()
+//{
+//    using (var conn = Connection)
+//    {
+//        conn.Open();
+//        using (var cmd = conn.CreateCommand())
+//        {
+//            cmd.CommandText = @"
+//                        SELECT up.Id, up.Name, up.Email, up.DisplayName, up.FirebaseUserId
+//                        v.Id, v.Url, v.Title, v.Info, v.TopicId, v.UserProfileId,
+
+
+
+//                        FROM UserProfile up 
+//                        JOIN Video v ON v.UserProfileId = up.Id
+//                        ORDER BY up.Id
+//    ";
+
+//            using (SqlDataReader reader = cmd.ExecuteReader())
+//            {
+
+//                var userProfile = new List<UserProfile>();
+//                while (reader.Read())
+//                {
+//                    userProfile.Add(new UserProfile()
+//                    {
+//                        Id = DbUtils.GetInt(reader, "UserProfileId"),
+//                        Name = DbUtils.GetString(reader, "Name"),
+//                        Email = DbUtils.GetString(reader, "Email"),
+//                        DisplayName = DbUtils.GetString(reader, "DisplayName"),
+//                        FirebaseUserId = DbUtils.GetInt(reader, "FirebaseUserId"),
+
+//                    });
+//                }
+//                return userProfile;
+
+//            }
+//        }
+//    }
+//}
+
+//public List<UserProfile> GetAllUserProfilesWithVideosTagsAndTopics()
+//{
+//    using (var conn = Connection)
+//    {
+//        conn.Open();
+//        using (var cmd = conn.CreateCommand())
+//        {
+//            cmd.CommandText = @"
+//        SELECT v.Id AS VideoId, v.Title, v.Info, v.Url, v.TopicId,
+
+//               up.Id AS UserProfileId, up.Name, up.Email, up.DisplayName, up.FirebaseUserId,
+
+//               t.Id AS TagId, t.Name AS TagName,
+
+//               tp.Id AS TopicId, tp.Title,
+
+//               vt.TagId, vt.VideoId,
+
+//          FROM Video v
+//               LEFT JOIN Topic tp ON v.TopicId = tp.Id
+//               JOIN UserProfile up ON v.UserProfileId = up.Id
+//               LEFT JOIN VideoTag vt ON v.Id = vt.VideoId
+//               LEFT JOIN Tag t ON vt.TagId = t.Id
+//        ORDER BY tp.Title, t.Id
+//    ";
+
+//            using (SqlDataReader reader = cmd.ExecuteReader())
+//            {
+//                var videos = new List<Video>();
+//                while (reader.Read())
+//                {
+//                    var videoId = DbUtils.GetInt(reader, "VideoId");
+//                    var existingVideo = videos.FirstOrDefault(v => v.Id == videoId);
+
+//                    if (existingVideo == null)
+//                    {
+//                        existingVideo = new Video()
+//                        {
+//                            Id = videoId,
+//                            Title = DbUtils.GetString(reader, "Title"),
+//                            Info = DbUtils.GetString(reader, "Info"),
+//                            Url = DbUtils.GetString(reader, "Url"),
+//                            TopicId = DbUtils.GetInt(reader, "TopicId"),
+//                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+//                            UserProfile = new UserProfile()
+//                            {
+//                                Id = DbUtils.GetInt(reader, "UserProfileId"),
+//                                Name = DbUtils.GetString(reader, "Name"),
+//                                Email = DbUtils.GetString(reader, "Email"),
+//                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
+//                                FirebaseUserId = DbUtils.GetInt(reader, "FirebaseUserId")
+//                            },
+//                            Tag = new List<Tag>()
+//                        };
+
+//                        videos.Add(existingVideo);
+//                    }
+
+//                    if (DbUtils.IsNotDbNull(reader, "TagId"))
+//                    {
+//                        existingVideo.Tag.Add(new Tag()
+//                        {
+//                            Id = DbUtils.GetInt(reader, "TagId"),
+//                            Name = DbUtils.GetString(reader, "TagName")
+//                        });
+//                    }
+//                }
+
+//                return videos;
+//            }
+//        }
+//    }
+//}
