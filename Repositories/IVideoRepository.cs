@@ -10,5 +10,7 @@ namespace WontDistractYouTube.Repositories
         List<Video> GetAll();
         Video GetByVideoId(int id);
         void Update(Video video);
+
+        public List<Video> GetAllVideosWithTagsAndTopics();
     }
 }
