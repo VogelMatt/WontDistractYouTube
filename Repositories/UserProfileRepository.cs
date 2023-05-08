@@ -36,12 +36,73 @@ namespace WontDistractYouTube.Repositories
                                 Name = reader.GetString(reader.GetOrdinal("Name")),
                                 Email = reader.GetString(reader.GetOrdinal("Email")),
                                 DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
-                                FirebaseUserId = reader.GetInt32(reader.GetOrdinal("FirebaseUserId")),
+                                FirebaseUserId = reader.GetString(reader.GetOrdinal("FirebaseUserId")),
                             };
 
                         }
 
                         return userProfile;
+                    }
+                }
+            }
+        }
+
+        
+
+        public UserProfile GetUserProfleByFirebaseId(string id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    SELECT up.Id, up.FirebaseUserId, up.[Name],
+                    up.Email, up.DisplayName, 
+                    v.Id AS VideoId,
+                    v.Url,
+                    v.Title, 
+                    v.Info,
+                    v.TopicId,
+                    v.UserProfileId
+                    FROM UserProfile up
+                    LEFT JOIN Video v ON v.UserProfileId = up.Id
+                    WHERE up.FirebaseUserId = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        UserProfile user = null;
+                        while (reader.Read())
+                        {
+                            if (user == null)
+                            {
+                                user = new UserProfile()
+                                {
+                                    Id = DbUtils.GetInt(reader, "Id"),
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Email = DbUtils.GetString(reader, "Email"),
+                                    DisplayName = DbUtils.GetString(reader, "UserCreatedDate"),
+                                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId")
+                                    
+                                };
+
+                            }
+                            if (DbUtils.IsNotDbNull(reader, "VideoId"))
+                            {
+                                user.Videos.Add(new Video()
+                                {
+                                    Id = DbUtils.GetInt(reader, "VideoId"),
+                                    Url = DbUtils.GetString(reader, "Url"),
+                                    Title = DbUtils.GetString(reader, "Title"),
+                                    Info = DbUtils.GetString(reader, "Info"),
+                                    TopicId = DbUtils.GetInt(reader, "TopicId"),
+                                    UserProfileId = DbUtils.GetInt(reader, "UserProfileId")
+                                });
+                            }
+                        }
+                        return user;
                     }
                 }
             }
@@ -113,6 +174,42 @@ namespace WontDistractYouTube.Repositories
         }
     }
 }
+
+
+//public UserProfile GetUserProfleByFirebaseId(int id)
+//{
+//    using (var conn = Connection)
+//    {
+//        conn.Open();
+//        using (var cmd = conn.CreateCommand())
+//        {
+//            cmd.CommandText = @"
+//                SELECT Id, Name, Email, DisplayName, FirebaseUserId  FROM UserProfile
+//                 WHERE Id = @id;";
+//            cmd.Parameters.AddWithValue("@id", id);
+
+//            using (SqlDataReader reader = cmd.ExecuteReader())
+//            {
+//                UserProfile userProfile = null;
+//                if (reader.Read())
+//                {
+//                    userProfile = new UserProfile()
+//                    {
+//                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+//                        Name = reader.GetString(reader.GetOrdinal("Name")),
+//                        Email = reader.GetString(reader.GetOrdinal("Email")),
+//                        DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+//                        FirebaseUserId = reader.GetInt32(reader.GetOrdinal("FirebaseUserId")),
+//                    };
+
+//                }
+
+//                return userProfile;
+//            }
+//        }
+//    }
+//}
+
 
 //public List<UserProfile> GetAll()
 //{

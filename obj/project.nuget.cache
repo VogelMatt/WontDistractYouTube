@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "JzMz+OzgFWCk2Mt6D9QovHoIjrxAmPCNjJUbnjnXHHEM+EvjhgA3ffY0g1nCZv6A3r5205ZOfyL+osuOBocaLQ==",
+  "dgSpecHash": "JDeApFgU9l5Z+rI6iIcM70rQ0Pp3tqnM3Gk1rnflmKam/n/nicuw9OdRrPxgw7es+Qg9naiwp+O36fd4mGPNFg==",
   "success": true,
   "projectFilePath": "C:\\Users\\M\\workspace\\WontDistractYouTube\\WontDistractYouTube.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\M\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\M\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\M\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.17\\microsoft.aspnetcore.authentication.jwtbearer.5.0.17.nupkg.sha512",
     "C:\\Users\\M\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\M\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\M\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.1\\microsoft.data.sqlclient.5.1.1.nupkg.sha512",

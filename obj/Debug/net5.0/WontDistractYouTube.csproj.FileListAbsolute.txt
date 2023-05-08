@@ -67,3 +67,7 @@ C:\Users\M\workspace\WontDistractYouTube\obj\Debug\net5.0\refint\WontDistractYou
 C:\Users\M\workspace\WontDistractYouTube\obj\Debug\net5.0\WontDistractYouTube.pdb
 C:\Users\M\workspace\WontDistractYouTube\obj\Debug\net5.0\WontDistractYouTube.genruntimeconfig.cache
 C:\Users\M\workspace\WontDistractYouTube\obj\Debug\net5.0\ref\WontDistractYouTube.dll
+C:\Users\M\workspace\WontDistractYouTube\bin\Debug\net5.0\js-app\package-lock.json
+C:\Users\M\workspace\WontDistractYouTube\bin\Debug\net5.0\js-app\package.json
+C:\Users\M\workspace\WontDistractYouTube\bin\Debug\net5.0\js-app\public\manifest.json
+C:\Users\M\workspace\WontDistractYouTube\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
