@@ -1,0 +1,34 @@
+-- Insert data into UserProfile table
+INSERT INTO UserProfile (Name, Email, DisplayName, FirebaseUserId)
+VALUES 
+  ('John Doe', 'johndoe@example.com', 'John', '12345678'),
+  ('Jane Smith', 'janesmith@example.com', 'Jane', '87654321'),
+  ('Bob Johnson', 'bobjohnson@example.com', 'Bob', '45678901');
+
+-- Insert data into Topic table
+INSERT INTO Topic (Title)
+VALUES 
+  ('Science'),
+  ('Technology'),
+  ('Art');
+
+-- Insert data into Tag table
+INSERT INTO Tag (Name)
+VALUES 
+  ('Programming'),
+  ('Physics'),
+  ('Drawing');
+
+-- Insert data into Video table
+INSERT INTO Video (Url, Title, Info, TopicId, UserProfileId)
+VALUES 
+  ('https://www.youtube.com/watch?v=abcdefgh', 'Introduction to Programming', 'Learn the basics of programming in Python', 1, 1),
+  ('https://www.youtube.com/watch?v=ijklmnop', 'Quantum Mechanics Explained', 'A beginner-friendly introduction to quantum mechanics', 2, 2),
+  ('https://www.youtube.com/watch?v=qrstuvwx', 'How to Draw a Portrait', 'Step-by-step tutorial on drawing realistic portraits', 3, 3);
+
+-- Insert data into VideoTag table
+INSERT INTO VideoTag (TagId, VideoId)
+VALUES 
+  (1, 1),
+  (2, 2),
+  (3, 3);

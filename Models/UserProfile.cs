@@ -15,9 +15,9 @@ namespace WontDistractYouTube.Models
 
         [Required]
         public string Email { get; set; }
-        public Video Video { get; set; }
+        public List<Video> Videos { get; set; }
 
-        public int FirebaseUserId { get; set; }
+        public string FirebaseUserId { get; set; }
 
         [Required]
         public string DisplayName { get; set; }

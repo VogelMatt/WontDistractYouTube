@@ -8,5 +8,7 @@ namespace WontDistractYouTube.Repositories
         void Delete(int id);
         UserProfile GetAllVideosByUserProfileId(int id);
         void Update(UserProfile userProfile);
+
+        public UserProfile GetUserProfleByFirebaseId(string id);
     }
 }

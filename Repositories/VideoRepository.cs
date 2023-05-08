@@ -53,7 +53,7 @@ namespace WontDistractYouTube.Repositories
                                     Name = DbUtils.GetString(reader, "Name"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                                    FirebaseUserId = DbUtils.GetInt(reader, "FirebaseUserId"),
+                                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                                 },
                             });
                         }
@@ -109,7 +109,7 @@ namespace WontDistractYouTube.Repositories
                                         Name = DbUtils.GetString(reader, "Name"),
                                         Email = DbUtils.GetString(reader, "Email"),
                                         DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                                        FirebaseUserId = DbUtils.GetInt(reader, "FirebaseUserId")
+                                        FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId")
                                     },
                                     Tag = new List<Tag>()
                                 };
