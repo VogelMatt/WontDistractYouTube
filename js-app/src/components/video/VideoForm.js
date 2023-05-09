@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addVideo } from '../modules/videoManager';
-import { getTags } from '../modules/tagManager';
+import { addVideo } from '../../modules/videoManager';
+import { getTags } from '../../modules/tagManager';
 
 const VideoForm = ({ getVideos }) => {
     const navigate = useNavigate();

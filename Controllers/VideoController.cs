@@ -16,14 +16,14 @@ namespace WontDistractYouTube.Controllers
         }
 
         // https://localhost:5001/api/video/
-        [HttpGet]
+        [HttpGet("GetAll")]
         public IActionResult Get()
         {
             return Ok(_videoRepository.GetAll());
         }
 
-        [HttpGet("GetAllVideosWithTagsAndTopics")]
-        public IActionResult GetWithComments()
+        [HttpGet("VideosWithTagsAndTopics")]
+        public IActionResult GetAllVideoTagsAndTopics()
         {
             var videos = _videoRepository.GetAllVideosWithTagsAndTopics();
             return Ok(videos);

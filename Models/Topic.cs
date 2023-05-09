@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-
+﻿using System.Collections.Generic;
 
 namespace WontDistractYouTube.Models
 {
@@ -10,5 +7,7 @@ namespace WontDistractYouTube.Models
         public int Id { get; set; }
 
         public string Title { get; set; }
+
+        public List<Video> Videos { get; set; }
     }
 }

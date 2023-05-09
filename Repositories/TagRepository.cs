@@ -1,11 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 using WontDistractYouTube.Models;
 
 namespace WontDistractYouTube.Repositories
 {
-    public class TagRepository : BaseRepository
+    public class TagRepository : BaseRepository, ITagRepository
     {
         public TagRepository(IConfiguration configuration) : base(configuration) { }
 
@@ -18,21 +19,46 @@ namespace WontDistractYouTube.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Id, Name 
-                                    FROM Tag";
+                                    SELECT t.Id as TagId, t.Name as TagName, 
+                                           vt.Id as VideoTagId, vt.VideoId as VideoTagVideoId, vt.TagId as VideoTagTagId, 
+                                           v.Id as VideoId, v.Url, v.Title, v.Info, v.TopicId as VideoTopicId, v.UserProfileId, 
+                                           tp.Id as TopicTopicId, tp.Title as TopicTitle
+                                    FROM Tag t
+                                           LEFT JOIN VideoTag vt ON t.Id = vt.TagId
+                                           LEFT JOIN Video v ON vt.VideoId = v.Id
+                                           LEFT JOIN Topic tp ON tp.Id = v.TopicId";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         var tags = new List<Tag>();
                         while (reader.Read())
                         {
-                            tags.Add(new Tag()
+                            var tagId = reader.GetInt32(reader.GetOrdinal("TagId"));
+                            var existingTag = tags.FirstOrDefault(t => t.Id == tagId);
+                            if (existingTag == null)
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Name = reader.GetString(reader.GetOrdinal("Name")),
-                            });
-                        }
+                                existingTag = new Tag()
+                                {
+                                    Id = tagId,
+                                    Name = reader.GetString(reader.GetOrdinal("TagName")),
+                                    Videos = new List<Video>()
+                                };
+                                tags.Add(existingTag);
+                            }
 
+                            if (!reader.IsDBNull(reader.GetOrdinal("VideoId")))
+                            {
+                                existingTag.Videos.Add(new Video()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("VideoId")),
+                                    Url = reader.GetString(reader.GetOrdinal("Url")),
+                                    Title = reader.GetString(reader.GetOrdinal("Title")),
+                                    Info = reader.GetString(reader.GetOrdinal("Info")),
+                                    TopicId = reader.GetInt32(reader.GetOrdinal("VideoTopicId")),
+                                    UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                                });
+                            }
+                        }
                         return tags;
                     }
                 }

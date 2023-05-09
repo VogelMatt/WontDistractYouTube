@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using WontDistractYouTube.Models;
+using WontDistractYouTube.Models.DTOs;
 
 namespace WontDistractYouTube.Repositories
 {
@@ -11,6 +12,6 @@ namespace WontDistractYouTube.Repositories
         Video GetByVideoId(int id);
         void Update(Video video);
 
-        public List<Video> GetAllVideosWithTagsAndTopics();
+        public List<VideoDto> GetAllVideosWithTagsAndTopics();
     }
 }
