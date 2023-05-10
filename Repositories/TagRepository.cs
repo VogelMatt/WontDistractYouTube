@@ -41,23 +41,23 @@ namespace WontDistractYouTube.Repositories
                                 {
                                     Id = tagId,
                                     Name = reader.GetString(reader.GetOrdinal("TagName")),
-                                    Videos = new List<Video>()
+                                    //Videos = new List<Video>()
                                 };
                                 tags.Add(existingTag);
                             }
 
-                            if (!reader.IsDBNull(reader.GetOrdinal("VideoId")))
-                            {
-                                existingTag.Videos.Add(new Video()
-                                {
-                                    Id = reader.GetInt32(reader.GetOrdinal("VideoId")),
-                                    Url = reader.GetString(reader.GetOrdinal("Url")),
-                                    Title = reader.GetString(reader.GetOrdinal("Title")),
-                                    Info = reader.GetString(reader.GetOrdinal("Info")),
-                                    TopicId = reader.GetInt32(reader.GetOrdinal("VideoTopicId")),
-                                    UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-                                });
-                            }
+                            //if (!reader.IsDBNull(reader.GetOrdinal("VideoId")))
+                            //{
+                            //    existingTag.Videos.Add(new Video()
+                            //    {
+                            //        Id = reader.GetInt32(reader.GetOrdinal("VideoId")),
+                            //        Url = reader.GetString(reader.GetOrdinal("Url")),
+                            //        Title = reader.GetString(reader.GetOrdinal("Title")),
+                            //        Info = reader.GetString(reader.GetOrdinal("Info")),
+                            //        TopicId = reader.GetInt32(reader.GetOrdinal("VideoTopicId")),
+                            //        UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                            //    });
+                            //}
                         }
                         return tags;
                     }

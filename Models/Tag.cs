@@ -8,6 +8,6 @@ namespace WontDistractYouTube.Models
 
         public string Name { get; set; }
 
-        public List<Video> Videos { get; set; }
+        //public List<Video> Videos { get; set; }
     }
 }
