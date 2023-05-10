@@ -8,10 +8,12 @@ namespace WontDistractYouTube.Repositories
     {
         void Add(Video video);
         void Delete(int id);
-        List<Video> GetAll();
+        //List<Video> GetAll();
         Video GetByVideoId(int id);
         void Update(Video video);
 
-        public List<VideoDto> GetAllVideosWithTagsAndTopics();
+        public List<VideoDto> GetAllVideos();
+
+        public List<UserProfileDto.VideoDto> GetAllVideosByUserId(string firebaseUserId);
     }
 }

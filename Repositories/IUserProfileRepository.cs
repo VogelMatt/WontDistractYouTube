@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using WontDistractYouTube.Models;
+using WontDistractYouTube.Models.DTOs;
 
 namespace WontDistractYouTube.Repositories
 {
     public interface IUserProfileRepository
     {
 
-        public List<UserProfile> GetAll();
+        //public List<UserProfile> GetAll();
 
-        public UserProfile GetById(int id);
-        public UserProfile GetUserProfileByFirebaseId(string firebaseUserId);
-        public UserProfile GetUserProfileByIdWithVideos(int id);
+        //public UserProfile GetById(int id);
+        //public UserProfile GetUserProfileByIdWithVideos(int id);
+        public UserProfileDto GetUserProfileByFirebaseId(string firebaseUserId);
 
-        public List<UserProfile> GetAllUserProfilesWithVideos();
+        //public UserProfileDto GetUserProfileWithVideosTagsTopics(string firebaseUserId);
         void Add(UserProfile userProfile);
         void Delete(int id);
         void Update(UserProfile userProfile);

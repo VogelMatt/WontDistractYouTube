@@ -15,17 +15,17 @@ namespace WontDistractYouTube.Controllers
             _videoRepository = videoRepository;
         }
 
-        // https://localhost:5001/api/video/
-        [HttpGet("GetAll")]
-        public IActionResult Get()
-        {
-            return Ok(_videoRepository.GetAll());
-        }
+        //// https://localhost:5001/api/video/
+        //[HttpGet("GetAll")]
+        //public IActionResult Get()
+        //{
+        //    return Ok(_videoRepository.GetAll());
+        //}
 
-        [HttpGet("VideosWithTagsAndTopics")]
-        public IActionResult GetAllVideoTagsAndTopics()
+        [HttpGet]
+        public IActionResult GetAllVideos()
         {
-            var videos = _videoRepository.GetAllVideosWithTagsAndTopics();
+            var videos = _videoRepository.GetAllVideos();
             return Ok(videos);
         }
 

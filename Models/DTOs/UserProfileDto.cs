@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WontDistractYouTube.Models.DTOs
 {
@@ -9,6 +10,8 @@ namespace WontDistractYouTube.Models.DTOs
         public string Email { get; set; }       
         public string DisplayName { get; set; }
 
+        public string FirebaseUserId { get; set; }
+        public List<VideoDto> Videos { get; set; }      
 
 
         #region Nested Classes
@@ -18,6 +21,19 @@ namespace WontDistractYouTube.Models.DTOs
             public int Id { get; set; }
 
             public string Title { get; set; }
+        }
+
+        public class VideoDto
+        {
+            public int Id { get; set; }
+            public string Title { get; set; }
+            public string Url { get; set; }
+            public string Info { get; set; }
+
+            public TopicDto Topic { get; set; }
+
+            public List<TagDto> Tags { get; set; }
+
         }
         public class TagDto
         {
