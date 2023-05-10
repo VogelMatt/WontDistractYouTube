@@ -7,21 +7,61 @@ using WontDistractYouTube.Repositories;
 
 namespace WontDistractYouTube.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
     {
+
         private readonly IUserProfileRepository _userProfileRepository;
-        public UserProfileController(IUserProfileRepository userProfileRepository)
+        private readonly IVideoRepository _videoRepository;
+
+        public UserProfileController(IUserProfileRepository userProfileRepository, IVideoRepository videoRepository)
         {
             _userProfileRepository = userProfileRepository;
+            _videoRepository = videoRepository;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        //[HttpGet]
+        //public IActionResult Get()
+        //{
+        //    return Ok();
+        //}
+
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetByFirebaseUserId(string firebaseUserId)
         {
-            return Ok(_userProfileRepository.GetAll());
+            var userProfile = _userProfileRepository.GetUserProfileByFirebaseId(firebaseUserId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok(userProfile);
+        }
+
+        [HttpGet("DoesUserExist/{firebaseUserId}")]
+        public IActionResult DoesUserExist(string firebaseUserId)
+        {
+            var userProfile = _userProfileRepository.GetUserProfileByFirebaseId(firebaseUserId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
+
+        [HttpGet("WithVideos/{firebaseUserId}")]
+        public IActionResult GetByFirebaseUserIdWithVideos(string firebaseUserId)
+        {
+            var userProfile = _userProfileRepository.GetUserProfileByFirebaseId(firebaseUserId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            userProfile.Videos = _videoRepository.GetAllVideosByUserId(firebaseUserId);
+
+
+            return Ok(userProfile);
         }
 
         [HttpPut("{id}")]
@@ -41,79 +81,54 @@ namespace WontDistractYouTube.Controllers
         {
             _userProfileRepository.Delete(id);
             return NoContent();
-        }
+        }       
 
-        [HttpGet("{id}/GetUserWithVideos")]
-        public IActionResult GetUserByIdWithVideos(int id)
+        [HttpPost]
+        public IActionResult Register(UserProfile userProfile)
         {
-            var user = _userProfileRepository.GetUserProfileByIdWithVideos(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return Ok(user);
-        }
-
-        [HttpGet("GetWithVideos")]
-        public IActionResult GetWithVideos()
-        {
-            var users = _userProfileRepository.GetAllUserProfilesWithVideos();
-            return Ok(users);
-        }
-
-        [HttpGet("{firebaseUserId}")]
-        public IActionResult GetByFirebaseUserId(string firebaseUserId)
-        {
-            var userProfile = _userProfileRepository.GetUserProfileByFirebaseId(firebaseUserId);
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-            return Ok(userProfile);
-        }
-
-        [HttpGet("Me")]
-        public IActionResult Me()
-        {
-            var userProfile = GetCurrentUserProfile();
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(userProfile);
-        }
-
-        [HttpGet("DoesUserExist/{firebaseUserId}")]
-        public IActionResult DoesUserExist(string firebaseUserId)
-        {
-            var userProfile = _userProfileRepository.GetUserProfileByFirebaseId(firebaseUserId);
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-            return Ok();
-        }
-
-        //[HttpPost]
-        //public IActionResult Register(UserProfile userProfile)
-        //{
-        //    // All newly registered users start out as a "user" user type (i.e. they are not admins)
-        //    userProfile.DateCreated = DateTime.Now;
-        //    _userProfileRepository.Add(userProfile);
-        //    return CreatedAtAction(
-        //        nameof(GetByFirebaseUserId), new { firebaseUserId = userProfile.FirebaseUserId }, userProfile);
-        //}
-
-        private UserProfile GetCurrentUserProfile()
-        {
-            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _userProfileRepository.GetUserProfileByFirebaseId(firebaseUserId);
+            _userProfileRepository.Add(userProfile);
+            return CreatedAtAction(
+                nameof(GetByFirebaseUserId), new { firebaseUserId = userProfile.FirebaseUserId }, userProfile);
         }
     }
 }
 
 
+
+
+
+
+
+
+
+//[HttpGet]
+//public IActionResult Get()
+//{
+//    return Ok(_userProfileRepository.GetUserProfileWithVideosTagsTopics());
+//}
+//private UserProfile GetCurrentUserProfile()
+//{
+//    var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+//    return _userProfileRepository.GetUserProfileByFirebaseId(firebaseUserId);
+//}
+
+//[HttpGet("{id}/GetUserWithVideos")]
+//public IActionResult GetUserByIdWithVideos(int id)
+//{
+//    var user = _userProfileRepository.GetUserProfileByIdWithVideos(id);
+//    if (user == null)
+//    {
+//        return NotFound();
+//    }
+//    return Ok(user);
+//}
+
+//[HttpGet("GetWithVideos")]
+//public IActionResult GetWithVideos()
+//{
+//    var users = _userProfileRepository.GetUserProfileWithVideosTagsTopics();
+//    return Ok(users);
+//}
 //[HttpPost]
 //public IActionResult Post(UserProfile user)
 //{

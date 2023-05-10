@@ -1,7 +1,7 @@
 const baseUrl = '/api/video';
 
 export const getAllVideos = () => {
-  return fetch(baseUrl + '/GetAll')
+  return fetch(baseUrl)
     .then((res) => res.json())
 };
 

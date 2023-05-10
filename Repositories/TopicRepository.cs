@@ -1,17 +1,15 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.Linq;
 using WontDistractYouTube.Models;
 
 namespace WontDistractYouTube.Repositories
 {
-    public class TagRepository : BaseRepository, ITagRepository
+    public class TopicRepository : BaseRepository
     {
-        public TagRepository(IConfiguration configuration) : base(configuration) { }
-
-
-        public List<Tag> GetAllTags()
+        public TopicRepository(IConfiguration configuration) : base(configuration) { }
+    {
+        public List<Topic> GetAllTopics()
         {
             using (var conn = Connection)
             {
