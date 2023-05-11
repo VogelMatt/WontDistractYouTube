@@ -7,7 +7,7 @@ import Register from "./auth/Register";
 import VideoList from "./video/VideoList";
 import Topic from "./topic/topic";
 import UserProfile from "./user/User";
-
+import VideoEditForm from "./video/VideoEditForm";
 
 const ApplicationViews = ({ isLoggedIn }) => {
   return (
@@ -20,14 +20,14 @@ const ApplicationViews = ({ isLoggedIn }) => {
           {/* route for "add" videoAddForm */}
           <Route path="add" element={isLoggedIn ? <VideoForm /> : <Navigate to="/login" />} />
           {/* route for "edit" add videoEditForm */}
-          <Route path=":id" element={isLoggedIn ? <VideoForm /> : <Navigate to="/login" />} />
+          <Route path=":videoId" element={isLoggedIn ? <VideoEditForm /> : <Navigate to="/login" />} />
         </Route>
         <Route path="videos">
           <Route index path=":topicId" element={isLoggedIn ? <VideoList /> : <Navigate to="/login" />} />
         </Route>
       </Route>      
       <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
+      <Route path="login/register" element={<Register />} />
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
     </Routes>
   );

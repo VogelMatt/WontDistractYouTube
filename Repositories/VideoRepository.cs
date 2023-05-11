@@ -230,7 +230,7 @@ namespace WontDistractYouTube.Repositories
         }
 
 
-        public VideoDto GetByVideoId(int id)
+        public EditVideoDto GetByVideoId(int id)
         {
             using (var conn = Connection)
             {
@@ -253,39 +253,33 @@ namespace WontDistractYouTube.Repositories
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        VideoDto existingVideo = null;
+                        EditVideoDto existingVideo = null;
                         if (reader.Read())
                         {
-                            existingVideo = new VideoDto()
+                            existingVideo = new EditVideoDto()
                             {
                                 Id = id,
                                 Title = DbUtils.GetString(reader, "Title"),
                                 Info = DbUtils.GetString(reader, "Info"),
-                                Url = DbUtils.GetString(reader, "Url"),
-                                UserProfile = new VideoDto.UserProfileDto()
-                                {
-                                    Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    Name = DbUtils.GetString(reader, "Name"),
-                                    Email = DbUtils.GetString(reader, "Email"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId")
-                                },
-                                Topic = new VideoDto.TopicDto()
-                                {
-                                    Id = DbUtils.GetInt(reader, "TopicId"),
-                                    Title = DbUtils.GetString(reader, "TopicTitle")
-                                },
-                                Tags = new List<VideoDto.TagDto>()
+                                Url = DbUtils.GetString(reader, "Url"), 
+                                TopicId = DbUtils.GetInt(reader,"TopicId"),
+                                TagId = DbUtils.GetInt(reader,"TagId")
+                                //Topic = new EditVideoDto.TopicDto()
+                                //{
+                                //    Id = DbUtils.GetInt(reader, "TopicId"),
+                                //    Title = DbUtils.GetString(reader, "TopicTitle")
+                                //},
+                                //Tags = new List<EditVideoDto.TagDto>()
                             };
 
-                            if (DbUtils.IsNotDbNull(reader, "TagId"))
-                            {
-                                existingVideo.Tags.Add(new VideoDto.TagDto()
-                                {
-                                    Id = DbUtils.GetInt(reader, "TagId"),
-                                    Name = DbUtils.GetString(reader, "TagName")
-                                });
-                            };
+                            //if (DbUtils.IsNotDbNull(reader, "TagId"))
+                            //{
+                            //    existingVideo.Tags.Add(new EditVideoDto.TagDto()
+                            //    {
+                            //        Id = DbUtils.GetInt(reader, "TagId"),
+                            //        Name = DbUtils.GetString(reader, "TagName")
+                            //    });
+                            //};
 
                         }
                         return existingVideo;
@@ -319,16 +313,13 @@ namespace WontDistractYouTube.Repositories
         //    }
         //}
 
-        public void Add(Video video, int selectedTopicId, List<int> selectedTagIds)
+        public void Add(Video video)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    // Set the TopicId value to the selected topic
-                    video.TopicId = selectedTopicId;
-
                     // Insert the new row into the Video table
                     cmd.CommandText = @"
                 INSERT INTO Video (Url, Title, Info, TopicId, UserProfileId)
@@ -347,11 +338,11 @@ namespace WontDistractYouTube.Repositories
                     video.Id = (int)cmd.ExecuteScalar();
 
                     // Insert rows into the VideoTag table for the selected tags
-                    foreach (var tagId in selectedTagIds)
+                    
                     {
                         cmd.CommandText = "INSERT INTO VideoTag (VideoId, TagId) VALUES (@VideoId, @TagId)";
                         DbUtils.AddParameter(cmd, "@VideoId", video.Id);
-                        DbUtils.AddParameter(cmd, "@TagId", tagId);
+                        DbUtils.AddParameter(cmd, "@TagId", video.TagId);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -371,17 +362,24 @@ namespace WontDistractYouTube.Repositories
                    SET Url = @url, 
                        Title = @title, 
                        Info = @info, 
-                       TopicId = @topicId, 
-                       UserProfileId = @userProfileId
+                       TopicId = @topicId                       
                  WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", video.Id);
                     cmd.Parameters.AddWithValue("@url", video.Url);
                     cmd.Parameters.AddWithValue("@title", video.Title);
                     cmd.Parameters.AddWithValue("@info", video.Info);
                     cmd.Parameters.AddWithValue("@topicId", video.TopicId);
-                    cmd.Parameters.AddWithValue("@userProfileId", video.UserProfileId);
+                    
 
                     cmd.ExecuteNonQuery();
+
+                    {
+                        cmd.CommandText = "INSERT INTO VideoTag (VideoId, TagId) VALUES (@VideoId, @TagId)";
+                        DbUtils.AddParameter(cmd, "@VideoId", video.Id);
+                        DbUtils.AddParameter(cmd, "@TagId", video.TagId);
+                        cmd.ExecuteNonQuery();
+
+                    }
                 }
             }
         }

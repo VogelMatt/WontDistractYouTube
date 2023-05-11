@@ -1,33 +1,42 @@
 import { React, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { addVideo } from '../../modules/videoManager';
+import { useNavigate, useParams } from 'react-router-dom';
+import { updateVideo } from '../../modules/videoManager';
 import { getAllTopics } from '../../modules/topicManager';
 import { getAllTags } from '../../modules/tagManager';
+import { getVideoById } from '../../modules/videoManager';
 
-const VideoForm = () => {
+
+const VideoEditForm = () => {
+    const { videoId } = useParams()
+    const [id, setId] = useState(videoId ?? "")
     const navigate = useNavigate();
     const [video, setVideo] = useState(
         {
             title: "",
             info: "",
             url: "",
-            topics: [],
-            selectedTags: []
+            topicId: null,
+            tagId: null
         }
     )
-    const [tags, setTags ] = useState([]);
-    const [topics, setTopics ] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [topics, setTopics] = useState([]);
     useEffect(() => {
-        getAllTags().then((res) => {setTags(res) })
-        getAllTopics().then((res) => {setTopics(res) })
-    }, [])  
-    
+        getAllTags().then((res) => { setTags(res) })
+        getAllTopics().then((res) => { setTopics(res) })
+        getVideoById(id).then((res) => { setVideo(res) })
+    }, [])
+
+
+
+
+
 
 
     const handleSaveButtonClick = (e) => {
         e.preventDefault()
 
-        addVideo(video).then(window.alert('Video added!'))
+        updateVideo(video).then(window.alert('Video updated!'))
             .then((p) => {
                 navigate("/")
             });
@@ -71,7 +80,7 @@ const VideoForm = () => {
                             }
                         }>
                     </input>
-                    <select                        
+                    <select
                         onChange={
                             (evt) => {
                                 const copy = { ...video };
@@ -86,7 +95,7 @@ const VideoForm = () => {
                             </option>
                         ))}
                     </select>
-                    <select                        
+                    <select
                         onChange={
                             (evt) => {
                                 const copy = { ...video };
@@ -112,4 +121,4 @@ const VideoForm = () => {
     )
 }
 
-export default VideoForm
+export default VideoEditForm

@@ -12,6 +12,8 @@ namespace WontDistractYouTube.Models
 
         public string Info { get; set; }
 
+        public int TagId { get; set; }
+
         public int TopicId { get; set; }
 
         public int UserProfileId { get; set; }

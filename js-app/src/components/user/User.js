@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { Table } from "reactstrap";
-import { getAllVideosByTopicId } from "../../modules/videoManager";
-
+// import { getAllVideosByTopicId } from "../../modules/videoManager";
+import { getUserDetails } from "../../modules/userProfileManager";
+import ProfileVideo from "../video/ProfileVideo";
 
 export const UserProfile = () => {
-    const { id } = useParams();
+    // const { id } = useParams();
     const [user, setUser] = useState([])
     // const navigate = useNavigate();
 
 
     useEffect(() => {
-        getAllVideosByTopicId(id)
+        getUserDetails()
             .then(userData => {
                 setUser(userData)
             })
@@ -23,14 +24,24 @@ export const UserProfile = () => {
                     <tr>
                         <th>Name</th>
                         <td>{user.displayName}</td>
-                    </tr>                    
+                    </tr>
                     <tr>
                         <th>Email</th>
                         <td>{user.email}</td>
-                    </tr>                  
-                    
+                    </tr>
+
                 </tbody>
             </Table>
+            {!!user.videos ? (
+                <section>
+
+                    {user.videos.map((v) =>
+                        <ProfileVideo key={v.Id} video={v} />
+                    )}
+                </section>
+            ) : (
+                <div />
+            )}
         </>
     )
 }
