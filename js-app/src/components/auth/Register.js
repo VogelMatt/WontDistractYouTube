@@ -7,6 +7,8 @@ export default function Register() {
   const navigate = useNavigate();
 
   const [name, setName] = useState();
+  const [displayName, setDisplayName] = useState();
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -16,7 +18,7 @@ export default function Register() {
     if (password && password !== confirmPassword) {
       alert("Passwords don't match. Try harder.");
     } else {
-      const userProfile = { name, email };
+      const userProfile = { name, email, displayName };
       register(userProfile, password).then(() => navigate("/"));
     }
   };
@@ -31,6 +33,15 @@ export default function Register() {
             type="text"
             autoFocus
             onChange={(e) => setName(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="displayName">Display Name</Label>
+          <Input
+            id="displayName"
+            type="text"
+            autoFocus
+            onChange={(e) => setDisplayName(e.target.value)}
           />
         </FormGroup>
         <FormGroup>

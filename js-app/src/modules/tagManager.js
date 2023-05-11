@@ -1,6 +1,7 @@
-const baseUrl = '/api/video';
+const baseUrl = '/api/tag';
 
-export const getTags = () => {
-    return fetch(baseUrl + '/GetAllTags')
-    .then((res) => res.json())
-};
+
+export const getAllTags = () => {
+    return fetch(baseUrl)
+      .then((res) => res.json())
+  };

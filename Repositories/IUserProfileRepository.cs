@@ -17,6 +17,6 @@ namespace WontDistractYouTube.Repositories
         void Add(UserProfile userProfile);
         void Delete(int id);
         void Update(UserProfile userProfile);
-
+        //UserProfile GetByFirebaseUserId(string firebaseUserId);
     }
 }

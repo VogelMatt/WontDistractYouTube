@@ -5,6 +5,8 @@ using WontDistractYouTube.Models;
 using WontDistractYouTube.Utils;
 using System.Linq;
 using WontDistractYouTube.Models.DTOs;
+using System.Reflection.PortableExecutable;
+using Microsoft.Extensions.Hosting;
 //using static WontDistractYouTube.Models.DTOs.VideoDto;
 //using UserProfileDto = WontDistractYouTube.Models.DTOs.VideoDto.UserProfileDto;
 
@@ -154,7 +156,7 @@ namespace WontDistractYouTube.Repositories
             }
         }
 
-        public List<UserProfileDto.VideoDto> GetAllVideosByTopicId(int TopicId)
+        public List<VideoDto> GetAllVideosByTopicId(int TopicId)
         {
             using (var conn = Connection)
             {
@@ -173,12 +175,12 @@ namespace WontDistractYouTube.Repositories
                        LEFT JOIN VideoTag vt ON v.Id = vt.VideoId
                        LEFT JOIN Tag t ON vt.TagId = t.Id
                 WHERE  tp.Id = @TopicId
-                ORDER BY tp.Title, t.Id
+                ORDER BY t.Id
             ";
-                    DbUtils.AddParameter(cmd, "@firebaseUserId", TopicId);
+                    DbUtils.AddParameter(cmd, "@TopicId", TopicId);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        var videos = new List<UserProfileDto.VideoDto>();
+                        var videos = new List<VideoDto>();
                         while (reader.Read())
                         {
                             var videoId = DbUtils.GetInt(reader, "VideoId");
@@ -186,18 +188,26 @@ namespace WontDistractYouTube.Repositories
 
                             if (existingVideo == null)
                             {
-                                existingVideo = new UserProfileDto.VideoDto()
+                                existingVideo = new VideoDto()
                                 {
                                     Id = videoId,
                                     Title = DbUtils.GetString(reader, "Title"),
                                     Info = DbUtils.GetString(reader, "Info"),
                                     Url = DbUtils.GetString(reader, "Url"),
-                                    Topic = new UserProfileDto.TopicDto()
+                                    UserProfile = new VideoDto.UserProfileDto()
+                                    {
+                                        Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                        Name = DbUtils.GetString(reader, "Name"),
+                                        Email = DbUtils.GetString(reader, "Email"),
+                                        DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                                        FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId")
+                                    },
+                                    Topic = new VideoDto.TopicDto()
                                     {
                                         Id = DbUtils.GetInt(reader, "TopicId"),
                                         Title = DbUtils.GetString(reader, "TopicTitle")
                                     },
-                                    Tags = new List<UserProfileDto.TagDto>()
+                                    Tags = new List<VideoDto.TagDto>()
                                 };
 
                                 videos.Add(existingVideo);
@@ -205,7 +215,7 @@ namespace WontDistractYouTube.Repositories
 
                             if (DbUtils.IsNotDbNull(reader, "TagId"))
                             {
-                                existingVideo.Tags.Add(new UserProfileDto.TagDto()
+                                existingVideo.Tags.Add(new VideoDto.TagDto()
                                 {
                                     Id = DbUtils.GetInt(reader, "TagId"),
                                     Name = DbUtils.GetString(reader, "TagName")
@@ -220,7 +230,7 @@ namespace WontDistractYouTube.Repositories
         }
 
 
-        public Video GetByVideoId(int id)
+        public EditVideoDto GetByVideoId(int id)
         {
             using (var conn = Connection)
             {
@@ -228,33 +238,80 @@ namespace WontDistractYouTube.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Url, Title, Info, TopicId, UserProfileId  FROM Video
-                         WHERE Id = @id;";
+                       SELECT v.Id AS VideoId, v.Title, v.Info, v.Url, v.TopicId as VideoTopicId,
+                       up.Id AS UserProfileId, up.Name, up.Email, up.DisplayName, up.FirebaseUserId,
+                       t.Id AS TagId, t.Name AS TagName,
+                       tp.Id AS TopicId, tp.Title as TopicTitle
+                       
+                  FROM Video v
+                       LEFT JOIN Topic tp ON v.TopicId = tp.Id
+                       JOIN UserProfile up ON v.UserProfileId = up.Id
+                       LEFT JOIN VideoTag vt ON v.Id = vt.VideoId
+                       LEFT JOIN Tag t ON vt.TagId = t.Id                
+                       WHERE VideoId = @id";
                     cmd.Parameters.AddWithValue("@id", id);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        Video video = null;
+                        EditVideoDto existingVideo = null;
                         if (reader.Read())
                         {
-                            video = new Video()
+                            existingVideo = new EditVideoDto()
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Url = reader.GetString(reader.GetOrdinal("Url")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Info = reader.GetString(reader.GetOrdinal("Info")),
-                                TopicId = reader.GetInt32(reader.GetOrdinal("TopicId")),
-                                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"))
+                                Id = id,
+                                Title = DbUtils.GetString(reader, "Title"),
+                                Info = DbUtils.GetString(reader, "Info"),
+                                Url = DbUtils.GetString(reader, "Url"), 
+                                TopicId = DbUtils.GetInt(reader,"TopicId"),
+                                TagId = DbUtils.GetInt(reader,"TagId")
+                                //Topic = new EditVideoDto.TopicDto()
+                                //{
+                                //    Id = DbUtils.GetInt(reader, "TopicId"),
+                                //    Title = DbUtils.GetString(reader, "TopicTitle")
+                                //},
+                                //Tags = new List<EditVideoDto.TagDto>()
                             };
 
-                        }
+                            //if (DbUtils.IsNotDbNull(reader, "TagId"))
+                            //{
+                            //    existingVideo.Tags.Add(new EditVideoDto.TagDto()
+                            //    {
+                            //        Id = DbUtils.GetInt(reader, "TagId"),
+                            //        Name = DbUtils.GetString(reader, "TagName")
+                            //    });
+                            //};
 
-                        return video;
+                        }
+                        return existingVideo;
+
                     }
                 }
             }
         }
 
+
+        //public void Add(Video video)
+        //{
+        //    using (var conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (var cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"
+        //        INSERT INTO Video (Url, Title, Info, TopicId, UserProfileId)
+        //        OUTPUT INSERTED.ID
+        //        VALUES (@Url, @Title, @Info, @TopicId, @UserProfileId)";
+
+        //            DbUtils.AddParameter(cmd, "@Url", video.Url);
+        //            DbUtils.AddParameter(cmd, "@Title", video.Title);
+        //            DbUtils.AddParameter(cmd, "@Info", video.Info);
+        //            DbUtils.AddParameter(cmd, "@TopicId", video.TopicId);
+        //            DbUtils.AddParameter(cmd, "@UserProfileId", video.UserProfileId);                    
+
+        //            video.Id = (int)cmd.ExecuteScalar();
+        //        }
+        //    }
+        //}
 
         public void Add(Video video)
         {
@@ -263,17 +320,31 @@ namespace WontDistractYouTube.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
+                    // Insert the new row into the Video table
                     cmd.CommandText = @"
                 INSERT INTO Video (Url, Title, Info, TopicId, UserProfileId)
                 OUTPUT INSERTED.ID
-                VALUES (@url, @title, @info, @topicId, @userProfileId)";
+                VALUES (@Url, @Title, @Info, @TopicId, @UserProfileId)";
+
+
+                    cmd.Parameters.AddWithValue("@id", video.Id);
                     cmd.Parameters.AddWithValue("@url", video.Url);
                     cmd.Parameters.AddWithValue("@title", video.Title);
                     cmd.Parameters.AddWithValue("@info", video.Info);
                     cmd.Parameters.AddWithValue("@topicId", video.TopicId);
                     cmd.Parameters.AddWithValue("@userProfileId", video.UserProfileId);
+                    
 
                     video.Id = (int)cmd.ExecuteScalar();
+
+                    // Insert rows into the VideoTag table for the selected tags
+                    
+                    {
+                        cmd.CommandText = "INSERT INTO VideoTag (VideoId, TagId) VALUES (@VideoId, @TagId)";
+                        DbUtils.AddParameter(cmd, "@VideoId", video.Id);
+                        DbUtils.AddParameter(cmd, "@TagId", video.TagId);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }
@@ -291,17 +362,24 @@ namespace WontDistractYouTube.Repositories
                    SET Url = @url, 
                        Title = @title, 
                        Info = @info, 
-                       TopicId = @topicId, 
-                       UserProfileId = @userProfileId
+                       TopicId = @topicId                       
                  WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", video.Id);
                     cmd.Parameters.AddWithValue("@url", video.Url);
                     cmd.Parameters.AddWithValue("@title", video.Title);
                     cmd.Parameters.AddWithValue("@info", video.Info);
                     cmd.Parameters.AddWithValue("@topicId", video.TopicId);
-                    cmd.Parameters.AddWithValue("@userProfileId", video.UserProfileId);
+                    
 
                     cmd.ExecuteNonQuery();
+
+                    {
+                        cmd.CommandText = "INSERT INTO VideoTag (VideoId, TagId) VALUES (@VideoId, @TagId)";
+                        DbUtils.AddParameter(cmd, "@VideoId", video.Id);
+                        DbUtils.AddParameter(cmd, "@TagId", video.TagId);
+                        cmd.ExecuteNonQuery();
+
+                    }
                 }
             }
         }
@@ -324,6 +402,29 @@ namespace WontDistractYouTube.Repositories
 }
 
 
+//DbUtils.AddParameter(cmd, "@Url", video.Url);
+//DbUtils.AddParameter(cmd, "@Title", video.Title);
+//DbUtils.AddParameter(cmd, "@Info", video.Info);
+//DbUtils.AddParameter(cmd, "@TopicId", video.TopicId);
+//DbUtils.AddParameter(cmd, "@UserProfileId", video.UserProfileId);
+
+
+
+
+//Video video = null;
+//if (reader.Read())
+//{
+//    video = new Video()
+//    {
+//        Id = reader.GetInt32(reader.GetOrdinal("VideoId")),
+//        Url = reader.GetString(reader.GetOrdinal("Url")),
+//        Title = reader.GetString(reader.GetOrdinal("Title")),
+//        Info = reader.GetString(reader.GetOrdinal("Info")),
+//        TopicId = reader.GetInt32(reader.GetOrdinal("VideoTopicId")),
+//        UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"))
+//    };
+
+//}
 
 //public List<Video> GetAll()
 //{

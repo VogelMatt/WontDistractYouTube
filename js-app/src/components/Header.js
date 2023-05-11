@@ -18,7 +18,7 @@ export default function Header({ isLoggedIn }) {
     <div>
       <Navbar color="dark" dark expand="md">
         <RRNavLink to="/" className="navbar-brand">
-          WontDistractYouTube
+          <h3>WontDistractYouTube</h3>
         </RRNavLink>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -26,8 +26,13 @@ export default function Header({ isLoggedIn }) {
             {isLoggedIn && (
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/videos/add">
+                  <NavLink tag={RRNavLink} to="/profile/add">
                     Add Video
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/profile">
+                    Profile
                   </NavLink>
                 </NavItem>
                 <NavItem>

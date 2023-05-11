@@ -15,7 +15,7 @@ namespace WontDistractYouTube.Controllers
             _tagRepository = tagRepository;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet]
         public IActionResult GetAll() 
         { 
             return Ok(_tagRepository.GetAllTags());
