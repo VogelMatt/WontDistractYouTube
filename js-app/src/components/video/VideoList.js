@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Video from './Video';
-import { getAllVideos } from "../../modules/videoManager";
+import {  getAllVideosByTopicId } from "../../modules/videoManager";
 import { useNavigate, useParams } from "react-router-dom"
 
 
@@ -9,13 +9,13 @@ import { useNavigate, useParams } from "react-router-dom"
 export default function VideoList() {
   const [videos, setVideo] = useState([]);
   const { topicId } = useParams(),
-        [id, setId] = useState(topicId ?? ""),
-        navigate = useNavigate()
-  // const routeParams = useParams();
-  // const [topicId, setTopicId] = useState(routeParams.topicId ?? "");
+  [id, setId] = useState(topicId ?? ""),
+  
+  navigate = useNavigate()
+  
 
   useEffect(() => {
-    getAllVideos().then(setVideo);
+    getAllVideosByTopicId(id).then((res) => { setVideo(res) })
   },[]);
 
   return (

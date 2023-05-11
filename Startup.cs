@@ -29,6 +29,7 @@ namespace WontDistractYouTube
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ITopicRepository, TopicRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
             services.AddTransient<IVideoRepository, VideoRepository>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();

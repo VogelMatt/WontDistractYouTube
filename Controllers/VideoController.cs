@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using WontDistractYouTube.Models;
 using WontDistractYouTube.Repositories;
 
@@ -29,6 +30,14 @@ namespace WontDistractYouTube.Controllers
             return Ok(videos);
         }
 
+        [HttpGet("Topic/{id}")]
+        public IActionResult GetAllVideosByTopicId(int id)
+        {
+            var videos = _videoRepository.GetAllVideosByTopicId(id);
+            return Ok(videos);
+
+        }
+
         // https://localhost:5001/api/video/{id}
         [HttpGet("{id}")]
         public IActionResult GetByVideoId(int id)
@@ -43,9 +52,9 @@ namespace WontDistractYouTube.Controllers
 
         // https://localhost:5001/api/video/
         [HttpPost]
-        public IActionResult Post(Video video)
+        public IActionResult Post([FromBody] Video video, [FromQuery] int selectedTopicId, [FromQuery] List<int> selectedTagIds)
         {
-            _videoRepository.Add(video);
+            _videoRepository.Add(video,selectedTopicId, selectedTagIds);
             return CreatedAtAction("Get", new { id = video.Id }, video);
         }
 

@@ -6,11 +6,15 @@ namespace WontDistractYouTube.Repositories
 {
     public interface IVideoRepository
     {
-        void Add(Video video);
+
+        public void Add(Video video, int selectedTopicId, List<int> selectedTagIds);
+        //void Add(Video video);
         void Delete(int id);
         //List<Video> GetAll();
-        Video GetByVideoId(int id);
+        VideoDto GetByVideoId(int id);
         void Update(Video video);
+
+        public List<VideoDto> GetAllVideosByTopicId(int id);
 
         public List<VideoDto> GetAllVideos();
 

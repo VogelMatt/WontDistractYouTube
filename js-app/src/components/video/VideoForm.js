@@ -1,7 +1,8 @@
 import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addVideo } from '../../modules/videoManager';
-import { getTags } from '../../modules/tagManager';
+import { getAllTopics } from '../../modules/topicManager';
+import { getAllTags } from '../../modules/tagManager';
 
 const VideoForm = ({ getVideos }) => {
     const navigate = useNavigate();
@@ -10,15 +11,18 @@ const VideoForm = ({ getVideos }) => {
             title: "",
             description: "",
             url: "",
-            topic: [],
+            topics: [],
             selectedTags: []
         }
     )
     const [tags, setTags ] = useState([]);
-
+    const [topics, setTopics ] = useState([]);
     useEffect(() => {
-        getTags().then(setTags);
-    }, [])
+        getAllTags().then((res) => {setTags(res) })
+        getAllTopics().then((res) => {setTopics(res) })
+    }, [])  
+    
+   
 
     const handleSaveButtonClick = (e) => {
         e.preventDefault()
@@ -67,21 +71,35 @@ const VideoForm = ({ getVideos }) => {
                             }
                         }>
                     </input>
-                    <select
-                        value={video.topicId}
+                    <select                        
                         onChange={
                             (evt) => {
                                 const copy = { ...video };
-                                copy.topicId = parseInt(evt.target.value);
+                                copy.topics = parseInt(evt.target.value);
                                 setVideo(copy);
                             }
                         }>
-                        {/* <option value="">Select a Topic</option>
+                        <option value="">Select a Topic</option>
                         {topics.map((topic) => (
                             <option key={topic.id} value={topic.id}>
                                 {topic.title}
                             </option>
-                        ))} */}
+                        ))}
+                    </select>
+                    <select                        
+                        onChange={
+                            (evt) => {
+                                const copy = { ...video };
+                                copy.tags = parseInt(evt.target.value);
+                                setVideo(copy);
+                            }
+                        }>
+                        <option value="">Select a Tag</option>
+                        {tags.map((tag) => (
+                            <option key={tag.id} value={tag.id}>
+                                {tag.name}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <div>
