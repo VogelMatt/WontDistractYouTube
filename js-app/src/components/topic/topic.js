@@ -15,8 +15,10 @@ const Topic = ({ topic }) => {
 
 
     return <>
-
-        <h3>Select A Topic</h3>        
+    <br></br>
+        {/* <div className="selectTopic">Select A Topic</div>   */}
+        <div className="Choose-topic">
+            
         {topics.map((topic) => (
             <>
             <Link key={topic.id} to={`/videos/${topic.id}`}>
@@ -25,6 +27,7 @@ const Topic = ({ topic }) => {
             <br></br>
             </>
         ))}
+        </div>      
     </>
 };
 
