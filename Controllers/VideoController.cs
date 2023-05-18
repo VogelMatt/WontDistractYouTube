@@ -21,14 +21,7 @@ namespace WontDistractYouTube.Controllers
         {
             _videoRepository = videoRepository;
             _userProfileRepository = userProfileRepository;
-        }
-
-        //// https://localhost:5001/api/video/
-        //[HttpGet("GetAll")]
-        //public IActionResult Get()
-        //{
-        //    return Ok(_videoRepository.GetAll());
-        //}
+        }       
 
         [HttpGet]
         public IActionResult GetAllVideos()
@@ -89,10 +82,7 @@ namespace WontDistractYouTube.Controllers
         {
             _videoRepository.Delete(id);
             return NoContent();
-        }
-
-        
-
+        }  
 
         private UserProfileDto GetCurrentUserProfile()
         {

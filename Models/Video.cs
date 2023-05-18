@@ -22,7 +22,7 @@ namespace WontDistractYouTube.Models
 
         public Topic Topic { get; set; }
 
-        //public VideoTag VideoTag { get; set; }
+        
 
         public List<Tag> Tag { get; set; }
 

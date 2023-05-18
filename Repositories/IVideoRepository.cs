@@ -8,9 +8,9 @@ namespace WontDistractYouTube.Repositories
     {
 
         public void Add(Video video);
-        //void Add(Video video);
+        
         void Delete(int id);
-        //List<Video> GetAll();
+      
         EditVideoDto GetByVideoId(int id);
         void Update(Video video);
 
