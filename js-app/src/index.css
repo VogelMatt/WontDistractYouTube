@@ -3,12 +3,245 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: #2b2b2b; /* Set a solid background color */
+  background-image: url("../public/local-Images/empty-blackboard.jpg"); /* Add a chalkboard texture image */
+  background-size: 100vmax cover;
+  /* Set the size of the gradients and image */
 }
 
 a {
   text-decoration: none;
-  color: black;
+  color: azure;
 }
+
+
+
+.userProfileInfo {
+font-family: "Shadows Into Light", cursive;
+font-size: 2.2em;
+color:azure;
+display:flex;
+flex-direction:row;
+justify-content:space-evenly;
+padding-top: 20px;
+}
+
+
+p {
+  color:azure;
+  font-family: "Gothic A1", sans-serif;
+  
+}
+
+.addVideo {
+  font-family: "Shadows Into Light", cursive;
+  color: azure;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+button {
+  font-family: "Shadows Into Light", cursive;
+}
+
+.navbar-collapse {
+  float: right;
+}
+.selectTopic {
+  color: azure;
+  font-family: "Gothic A1", sans-serif;
+  font-size: large;
+}
+.htmlFor {
+  color: azure;
+}
+.notreg {
+  color: azure;
+}
+
+.updateVideo {
+  display: flex;
+  border: 2px azure;
+  justify-content: center;
+  color: azure;
+  font-family: "Shadows Into Light", cursive;
+  padding-bottom: 2rem;
+  padding-top: 3rem;
+}
+
+.updateVideoForm {
+  margin: 0;
+  font-size: 1.125rem;  
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: -30px;
+  padding-bottom: 300px;
+  /* font-family: "Inter", sans-serif; */
+  line-height: 1.5;
+  color: azure;
+  font-weight: 200;
+  font-style: bold;
+  font-family:"Gothic A1", sans-serif;
+  font-family: "Shadows Into Light", cursive;
+  font-size: 1.5rem;
+}
+
+
+.AddVideoForm {
+  margin: 0;
+  font-size: 1.125rem;  
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: -30px;
+  padding-bottom: 300px;
+  /* font-family: "Inter", sans-serif; */
+  line-height: 1.5;
+  color: azure;
+  font-weight: 200;
+  font-style: bold;
+  font-family:"Gothic A1", sans-serif;
+  font-family: "Shadows Into Light", cursive;
+  font-size: 1.5rem;
+  ;
+}
+
+
+
+.loginForm {
+  margin: 0;
+  font-size: 1.125rem;
+  color: azure;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+}
+.registerForm {
+  margin: 0;
+  font-size: 1.125rem;
+  color: azure;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  align-items: center;
+  padding: 1rem;
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+}
+
+.modalDeleteWhole {  
+  display: flex;
+  border-radius: 20%;
+  font-family:"Gothic A1", sans-serif !important;
+  background-color: rgb(77, 66, 66);
+  
+
+}
+
+.modalDeleteBody {
+  font-family:"Gothic A1", sans-serif;
+  display: flex;  
+  justify-content: space-around;
+  font-size: 1em;
+  color:red;
+  background-color: rgb(77, 66, 66);
+  
+}
+
+
+.modalDeleteHeader {
+  background-color: rgb(77, 66, 66);
+  font-family:"Gothic A1", sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: -10px;
+  margin-top: px;
+  justify-content: center;
+  font-size: 1em;
+  color:red; 
+  font-weight: bolder;
+}
+
+.modalDeleteFooter {
+  display: flex;
+  justify-content: center;
+  margin-top: -10px;
+  background-color: rgb(77, 66, 66);
+}
+
+.mt-3 {
+  background-color: transparent;
+}
+.collapse {
+  display: flex;
+  justify-content: end;
+  margin-right: 20px;
+}
+
+
+.deleteAndEdit {
+display: flex;
+justify-content:space-around;
+padding-left: 450px;
+padding-right: 450px;
+}
+
+
+
+
+
+.white {
+  color: azure;
+}
+
+.red {
+  color: red;
+}
+.red-bg {
+  color: azure;
+  background-color: red;
+  margin-top: 1px;
+  border-radius: 15px; /* Adjust this value to get the desired roundness */
+  padding: 3px; /* Add some padding so the background color shows around the text */
+}
+.Choose-topic {
+  font-family: "Shadows Into Light", cursive;
+  font-size: 2.2em;
+}
+.Choose-topic :hover {
+  font-family: "Gothic A1", sans-serif;
+  color: azure;
+}
+
+.react-player {
+  height: 77vh !important;
+  width: 100% !important;
+}
+
+.search-bar {
+  border: none;
+  outline: none;
+  width: 350px;
+}
+
+
 
 ::-webkit-scrollbar {
   width: 0px;
@@ -23,66 +256,4 @@ a {
 
 ::-webkit-scrollbar-track {
   background-color: transparent;
-}
-
-.category-btn:hover {
-  background-color: #FC1503 !important;
-  color: white !important;
-}
-
-.category-btn:hover span{
-  color: white !important;
-}
-
-.react-player {
-  height: 77vh !important;
-  width: 100% !important;
-}
-
-.search-bar{
-  border:none;
-  outline:none;
-  width:350px;
-}
-
-.category-btn{
-  font-weight: bold !important;
-  text-transform: capitalize;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  cursor:pointer;
-  background: transparent;
-  outline: none;
-  border: none;
-
-  padding: 7px 15px;
-  margin: 10px 0px;
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-
-@media screen and (max-width: 900px) {
-  .category-btn{
-    margin: 10px;
-  }
-}
-
-@media screen and (max-width:800px){
-  .copyright{
-    display:none !important;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .scroll-horizontal {
-    overflow: auto !important;
-  }
-
-  .react-player {
-    height: 45vh !important;
-  }
-  .search-bar{
-    width:200px;
-  }
 }

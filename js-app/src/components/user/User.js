@@ -20,16 +20,10 @@ export const UserProfile = () => {
     return (
         <>
             <Table>
-                <tbody>
-                    <tr>
-                        <th>Name</th>
-                        <td>{user.displayName}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>{user.email}</td>
-                    </tr>
-
+                <tbody className="userProfileInfo">          
+                        
+                        <td>{user.displayName}'s Videos</td>
+                        {/* <td>{user.email}</td> */}
                 </tbody>
             </Table>
             {!!user.videos ? (

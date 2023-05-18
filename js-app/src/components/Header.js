@@ -18,11 +18,11 @@ export default function Header({ isLoggedIn }) {
     <div>
       <Navbar color="dark" dark expand="md">
         <RRNavLink to="/" className="navbar-brand">
-          <h3>WontDistractYouTube</h3>
+          <h3><span class="white">Wont</span><span class="red">Distract</span><span class="white">You</span><span class="red-bg">Tube</span></h3>
         </RRNavLink>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="navbar navbar-expand navbar-dark bg-info" navbar>
+          <Nav className="navbar navbar-expand" navbar>
             {isLoggedIn && (
               <>
                 <NavItem>
@@ -55,7 +55,7 @@ export default function Header({ isLoggedIn }) {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/register">
+                  <NavLink tag={RRNavLink} to="login/register">
                     Register
                   </NavLink>
                 </NavItem>

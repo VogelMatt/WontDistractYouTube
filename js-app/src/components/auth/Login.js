@@ -18,7 +18,7 @@ export default function Login() {
 
     return (
         <Form onSubmit={loginSubmit}>
-            <fieldset>
+            <fieldset className="loginForm">
                 <FormGroup>
                     <Label for="email">Email</Label>
                     <Input
@@ -37,10 +37,10 @@ export default function Login() {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Button>Login</Button>
+                    <Button color="success">Login</Button>
                 </FormGroup>
                 <em>
-                    Not registered? <Link to="register">Register</Link>
+                    <span className="notreg">Not registered?</span> <Link to="register">Register</Link>
                 </em>
             </fieldset>
         </Form>
