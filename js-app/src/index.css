@@ -3,10 +3,10 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #2b2b2b; /* Set a solid background color */
-  background-image: url("../public/local-Images/empty-blackboard.jpg"); /* Add a chalkboard texture image */
+  background-color: #2b2b2b; 
+  background-image: url("../public/local-Images/empty-blackboard.jpg"); */
   background-size: 100vmax cover;
-  /* Set the size of the gradients and image */
+ 
 }
 
 a {
@@ -83,7 +83,7 @@ button {
   align-items: center;
   margin-top: -30px;
   padding-bottom: 300px;
-  /* font-family: "Inter", sans-serif; */
+ 
   line-height: 1.5;
   color: azure;
   font-weight: 200;
@@ -104,8 +104,7 @@ button {
   justify-content: space-evenly;
   align-items: center;
   margin-top: -30px;
-  padding-bottom: 300px;
-  /* font-family: "Inter", sans-serif; */
+  padding-bottom: 300px;  
   line-height: 1.5;
   color: azure;
   font-weight: 200;
@@ -218,8 +217,8 @@ padding-right: 450px;
   color: azure;
   background-color: red;
   margin-top: 1px;
-  border-radius: 15px; /* Adjust this value to get the desired roundness */
-  padding: 3px; /* Add some padding so the background color shows around the text */
+  border-radius: 15px; 
+  padding: 3px; 
 }
 .Choose-topic {
   font-family: "Shadows Into Light", cursive;
