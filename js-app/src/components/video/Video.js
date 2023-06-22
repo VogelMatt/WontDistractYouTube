@@ -22,8 +22,3 @@ const Video = ({ video }) => {
 export default Video;
 
 
-{/* <ListGroup>
-          {video?.comments?.map((c) => (
-            <ListGroupItem>{c.message}</ListGroupItem>
-          ))}
-        </ListGroup>           */}
